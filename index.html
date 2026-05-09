@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mayank · Shopify Lead Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #ffd000;
+      --pink: #ff4eb8;
+      --blue: #3d6eff;
+      --green: #00d68f;
+      --orange: #ff6b2b;
+      --border: 2.5px solid var(--black);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--white); }
+    ::-webkit-scrollbar-thumb { background: var(--black); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 64px;
+      background: var(--white); border-bottom: var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px;
+      text-decoration: none; color: var(--black);
+    }
+    .nav-logo-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--black); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 28px; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; color: var(--black);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-resume {
+      background: var(--yellow); color: var(--black);
+      border: var(--border); border-radius: 100px;
+      padding: 10px 22px; font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 3px 3px 0 var(--black);
+    }
+    .nav-resume:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+
+    .hamburger {
+      display: none; background: none; border: var(--border); border-radius: 8px;
+      padding: 6px 10px; cursor: pointer; flex-direction: column; gap: 5px;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+      background: var(--white); border-bottom: var(--border);
+      padding: 20px 40px 28px; flex-direction: column; gap: 18px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; color: var(--black);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; padding-top: 64px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 0;
+      background: var(--white);
+      background-image: radial-gradient(circle, #d4cfc7 1px, transparent 1px);
+      background-size: 32px 32px;
+      position: relative; overflow: hidden;
+    }
+    .hero-left { padding: 80px 60px 80px 80px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: var(--border); border-radius: 100px;
+      padding: 8px 18px; margin-bottom: 32px;
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .hero-badge::before {
+      content: '✦'; font-size: 0.6rem;
+    }
+    h1.hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      line-height: 0.95; letter-spacing: 0.01em;
+      margin-bottom: 28px;
+    }
+    .hero-title .highlight {
+      background: var(--pink); padding: 0 8px;
+      display: inline-block; transform: rotate(-1.5deg);
+    }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.65;
+      color: #444; max-width: 520px;
+      font-family: 'Space Mono', monospace; margin-bottom: 40px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      border: var(--border); border-radius: 100px;
+      padding: 14px 28px; font-family: 'Space Mono', monospace;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 3px 3px 0 var(--black);
+    }
+    .btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+    .btn-pink { background: var(--pink); color: var(--black); }
+    .btn-outline { background: transparent; color: var(--black); }
+    .btn-blue { background: var(--blue); color: #fff; }
+    .btn-yellow { background: var(--yellow); color: var(--black); }
+    .btn-green { background: var(--green); color: var(--black); }
+
+    .hero-right {
+      position: relative; display: flex; justify-content: center;
+      align-items: center; height: 100%;
+    }
+    .hero-img-wrap {
+      position: relative; width: 380px; height: 420px;
+    }
+    .hero-img-frame {
+      width: 340px; height: 380px; border: var(--border); border-radius: 20px;
+      background: var(--black); overflow: hidden;
+      position: absolute; top: 20px; left: 20px;
+    }
+    .hero-img-frame img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block; filter: none;
+    }
+    .hero-tag {
+      position: absolute; border: var(--border); border-radius: 100px;
+      background: var(--white); padding: 8px 16px;
+      font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+      box-shadow: 3px 3px 0 var(--black);
+    }
+    .hero-tag.liquid { top: 0; right: 0; background: var(--green); }
+    .hero-tag.years { bottom: 40px; right: -10px; background: var(--blue); color: #fff; }
+    .hero-star {
+      position: absolute; top: -20px; right: 80px;
+      width: 90px; height: 90px;
+    }
+    .hero-star svg { width: 100%; height: 100%; }
+
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: var(--border); border-bottom: var(--border);
+    }
+    .stat {
+      padding: 28px 32px; border-right: var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: #666;
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--black); color: var(--white);
+      overflow: hidden; padding: 18px 0; border-top: var(--border); border-bottom: var(--border);
+    }
+    .ticker-inner {
+      display: flex; gap: 48px; width: max-content;
+      animation: ticker 18s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+      letter-spacing: 0.08em; white-space: nowrap;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .ticker-item .star { color: var(--yellow); font-size: 1rem; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 100px 80px; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: var(--border); border-radius: 100px;
+      padding: 8px 18px; margin-bottom: 28px;
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    h2.section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      line-height: 0.95; letter-spacing: 0.01em;
+      margin-bottom: 28px;
+    }
+    .section-desc {
+      font-family: 'Space Mono', monospace; font-size: 0.88rem;
+      line-height: 1.7; color: #555; max-width: 500px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    .about-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5.5vw, 5rem); line-height: 0.92;
+    }
+    .about-headline .rotated-block {
+      background: var(--yellow); padding: 4px 12px;
+      display: inline-block; transform: rotate(-2deg);
+      margin: 6px 0;
+    }
+    .about-text {
+      font-family: 'Space Mono', monospace; font-size: 0.88rem;
+      line-height: 1.75; color: #444; margin-bottom: 20px;
+    }
+    .about-text strong { color: var(--black); }
+    .cards-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .card {
+      border: var(--border); border-radius: var(--radius);
+      padding: 28px 24px; background: var(--white);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 16px; border: var(--border);
+    }
+    .card-icon.pink { background: var(--pink); }
+    .card-icon.yellow { background: var(--yellow); }
+    .card-icon.blue { background: var(--blue); }
+    .card-icon.green { background: var(--green); }
+    .card h3 {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+      letter-spacing: 0.03em; margin-bottom: 8px;
+    }
+    .card p { font-family: 'Space Mono', monospace; font-size: 0.75rem; line-height: 1.6; color: #555; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--yellow); }
+    #skills .inner { max-width: 1200px; }
+    #skills .top { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: start; }
+    .tags-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
+    .tag {
+      border: var(--border); border-radius: 100px;
+      padding: 10px 22px; font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; background: var(--white);
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 2px 2px 0 var(--black);
+    }
+    .tag:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--black); }
+    .tag.t-pink { background: var(--pink); }
+    .tag.t-blue { background: var(--blue); color: #fff; }
+    .tag.t-green { background: var(--green); }
+    .tag.t-orange { background: var(--orange); color: #fff; }
+    .tag.t-yellow { background: var(--yellow); }
+
+    /* ── WORK ── */
+    #work { background: var(--white); }
+    #work .header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 56px; align-items: end; }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .work-card {
+      border: var(--border); border-radius: var(--radius); overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .work-card:hover { transform: translate(-4px,-4px); box-shadow: 8px 8px 0 var(--black); }
+    .work-img {
+      height: 220px; overflow: hidden; position: relative;
+    }
+    .work-img-fill {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .work-card:hover .work-img-fill { transform: scale(1.05); }
+    .work-img-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-start; padding: 14px;
+    }
+    .work-chip {
+      background: var(--black); color: var(--white);
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 100px;
+    }
+    .work-body { padding: 20px 20px 24px; background: var(--white); }
+    .work-title-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .work-name {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.02em;
+    }
+    .work-arrow {
+      width: 32px; height: 32px; border: var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0; transition: background 0.15s;
+    }
+    .work-card:hover .work-arrow { background: var(--yellow); }
+    .work-desc {
+      font-family: 'Space Mono', monospace; font-size: 0.73rem;
+      line-height: 1.6; color: #555; margin-bottom: 14px;
+    }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .work-tag {
+      border: 1.5px solid var(--black); border-radius: 100px;
+      padding: 4px 12px; font-family: 'Space Mono', monospace;
+      font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .work-img-pink { background: linear-gradient(135deg, #ff4eb8 0%, #ff80d5 100%); }
+    .work-img-yellow { background: linear-gradient(135deg, #ffd000 0%, #ffe566 100%); }
+    .work-img-blue { background: linear-gradient(135deg, #3d6eff 0%, #7fa3ff 100%); }
+    .work-img-green { background: linear-gradient(135deg, #00d68f 0%, #66f0c0 100%); }
+    .work-img-teal { background: linear-gradient(135deg, #0a7b6e 0%, #14c4af 100%); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--white); padding-top: 0; }
+    .exp-timeline { position: relative; padding-left: 40px; }
+    .exp-timeline::before {
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+      width: 2px; background: var(--black);
+    }
+    .exp-item { position: relative; margin-bottom: 28px; }
+    .exp-dot {
+      position: absolute; left: -36px; top: 24px;
+      width: 16px; height: 16px; border-radius: 50%; border: var(--border);
+    }
+    .exp-card {
+      border: var(--border); border-radius: var(--radius); padding: 28px 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .exp-card:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+    .exp-role { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.03em; }
+    .exp-date {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #666;
+      white-space: nowrap; margin-left: 16px;
+    }
+    .exp-company { font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; }
+    .exp-points { list-style: none; }
+    .exp-points li {
+      font-family: 'Space Mono', monospace; font-size: 0.78rem;
+      line-height: 1.65; color: #444; padding-left: 20px;
+      position: relative; margin-bottom: 6px;
+    }
+    .exp-points li::before { content: '▶'; position: absolute; left: 0; font-size: 0.5rem; top: 3px; color: var(--black); }
+
+    /* ── WINS ── */
+    #wins { background: var(--black); color: var(--white); }
+    #wins .section-title { color: var(--white); }
+    #wins .section-title .not { color: var(--pink); }
+    .wins-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 48px; }
+    .win-card {
+      border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius);
+      padding: 24px 24px 24px 20px;
+      display: flex; gap: 18px; align-items: flex-start;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .win-card:hover { border-color: var(--yellow); transform: translate(-3px,-3px); }
+    .win-icon {
+      width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .win-icon.pink { background: var(--pink); }
+    .win-icon.yellow { background: var(--yellow); }
+    .win-icon.blue { background: var(--blue); }
+    .win-icon.green { background: var(--green); }
+    .win-text { font-family: 'Space Mono', monospace; font-size: 0.82rem; line-height: 1.65; color: #ccc; }
+    .win-text strong { color: var(--white); }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--pink); padding: 100px 80px; }
+    #testimonials .section-title { color: var(--black); }
+    #testimonials .section-title .trusted { -webkit-text-stroke: 2px var(--black); color: transparent; }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-top: 48px;
+    }
+    .testi-card {
+      border: var(--border); border-radius: var(--radius);
+      padding: 28px 24px; background: var(--white);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .testi-card:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+    .testi-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin-bottom: 16px; border: var(--border);
+    }
+    .testi-icon.pink { background: var(--pink); }
+    .testi-icon.yellow { background: var(--yellow); }
+    .testi-icon.blue { background: var(--blue); color: #fff; }
+    .testi-icon.green { background: var(--green); }
+    .testi-quote {
+      font-family: 'Space Mono', monospace; font-size: 0.82rem;
+      line-height: 1.7; margin-bottom: 20px;
+      border-bottom: 1.5px dashed #aaa; padding-bottom: 16px;
+    }
+    .testi-author { font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── INSIGHTS ── */
+    #insights { background: var(--white); }
+    #insights .header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 56px; align-items: start; }
+    .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .insight-card {
+      border: var(--border); border-radius: var(--radius); overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .insight-card:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+    .insight-header {
+      padding: 48px 24px 36px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .insight-header span { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.05em; }
+    .insight-body { padding: 24px; background: var(--white); }
+    .insight-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.03em; margin-bottom: 10px; }
+    .insight-desc { font-family: 'Space Mono', monospace; font-size: 0.73rem; line-height: 1.65; color: #555; margin-bottom: 16px; border-bottom: 1.5px dashed #aaa; padding-bottom: 14px; }
+    .insight-link { font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--blue); }
+    #contact .section-title { color: var(--white); }
+    #contact .section-title .proj { background: var(--pink); padding: 0 10px; }
+    #contact .badge-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid rgba(255,255,255,0.4); border-radius: 100px; padding: 8px 18px; color: var(--white); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 28px; }
+    #contact .sub { font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 1.65; color: rgba(255,255,255,0.85); margin-bottom: 60px; text-align: center; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: start; }
+    .contact-info-cards { display: flex; flex-direction: column; gap: 14px; }
+    .contact-card {
+      border: var(--border); border-radius: var(--radius);
+      background: var(--white); padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .contact-card-icon {
+      width: 44px; height: 44px; border-radius: 12px; border: var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .contact-card-icon.cpink { background: var(--pink); }
+    .contact-card-icon.cyellow { background: var(--yellow); }
+    .contact-card-icon.cgreen { background: var(--green); }
+    .contact-card-info label {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #888;
+      display: block; margin-bottom: 2px;
+    }
+    .contact-card-info strong { font-family: 'Space Mono', monospace; font-size: 0.78rem; font-weight: 700; }
+    .contact-form-wrap {
+      border: var(--border); border-radius: var(--radius);
+      background: var(--white); padding: 36px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 6px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; border: var(--border); border-radius: 10px;
+      padding: 13px 16px; font-family: 'Space Mono', monospace; font-size: 0.82rem;
+      background: var(--white); outline: none; transition: box-shadow 0.15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      box-shadow: 0 0 0 3px var(--blue);
+    }
+    .form-group textarea { min-height: 140px; resize: vertical; }
+    .form-group select { cursor: pointer; }
+    .btn-send {
+      width: 100%; background: var(--pink); color: var(--black);
+      border: var(--border); border-radius: 100px;
+      padding: 16px; font-family: 'Space Mono', monospace;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 4px 4px 0 var(--black);
+    }
+    .btn-send:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+    .form-msg { font-family: 'Space Mono', monospace; font-size: 0.78rem; margin-top: 14px; text-align: center; display: none; }
+    .form-msg.success { color: #00b373; display: block; }
+    .form-msg.error { color: #e00; display: block; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); color: var(--white); padding: 70px 80px 40px; }
+    .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: end; }
+    .footer-ship {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 0.95;
+    }
+    .footer-ship .outline { -webkit-text-stroke: 2px var(--white); color: transparent; }
+    .footer-right { text-align: right; }
+    .footer-email {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+      letter-spacing: 0.04em; text-decoration: none; color: var(--white);
+      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .footer-email:hover { color: var(--yellow); }
+    .footer-linkedin {
+      font-family: 'Space Mono', monospace; font-size: 0.78rem;
+      display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+      color: #aaa; text-decoration: none; margin-bottom: 28px;
+    }
+    .footer-linkedin:hover { color: var(--white); }
+    .footer-resume-btn {
+      display: inline-block; background: var(--yellow); color: var(--black);
+      border: var(--border); border-radius: var(--radius);
+      padding: 14px 28px; font-family: 'Space Mono', monospace;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      box-shadow: 4px 4px 0 rgba(255,255,255,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .footer-resume-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(255,255,255,0.4); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 28px; }
+    .footer-copy { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #777; }
+    .footer-built { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #777; }
+    .footer-built span { color: var(--pink); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      section { padding: 80px 48px; }
+      nav { padding: 0 28px; }
+      #hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-left { padding: 80px 40px 40px; }
+      .hero-right { padding: 0 40px 60px; justify-content: center; }
+      .hero-desc { margin: 0 auto 40px; }
+      .hero-btns { justify-content: center; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      #about { grid-template-columns: 1fr; gap: 40px; }
+      #skills .top { grid-template-columns: 1fr; gap: 40px; }
+      #work .header { grid-template-columns: 1fr; gap: 20px; }
+      .works-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .insights-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      footer { padding: 60px 40px 32px; }
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .footer-right { text-align: left; }
+      .footer-email, .footer-linkedin { justify-content: flex-start; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-resume { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 60px 24px; }
+      .hero-left { padding: 60px 24px 32px; }
+      .hero-right { padding: 0 24px 60px; }
+      .hero-img-wrap { width: 300px; height: 340px; }
+      .hero-img-frame { width: 280px; height: 320px; }
+      h2.section-title { font-size: 2.6rem; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .works-grid { grid-template-columns: 1fr; }
+      .wins-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      #testimonials { padding: 60px 24px; }
+      footer { padding: 60px 24px 32px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      h1.hero-title { font-size: 3rem; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-circle">M</div>
+    MAYANK.
+  </a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#insights">Insights</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="documents/mayank's resume.pdf" download="Mayank_Srivastav_Resume.pdf" class="nav-resume">⬇ Resume</a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#work" onclick="closeMobile()">Work</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#insights" onclick="closeMobile()">Insights</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge">✦ SHOPIFY LEAD DEVELOPER · DELHI, INDIA</div>
+    <h1 class="hero-title">
+      I BUILD<br>
+      <span class="highlight">SHOPIFY</span><br>
+      STORES THAT<br>
+      CONVERT.
+    </h1>
+    <p class="hero-desc">I architect, build, and optimize Shopify Plus storefronts that don't just look beautiful — they convert. 5+ years turning Figma into pixel-perfect, performant Liquid themes with measurable revenue impact.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn btn-pink">VIEW WORK →</a>
+      <a href="documents/mayank's resume.pdf" download="Mayank_Srivastav_Resume.pdf" class="btn btn-outline">⬇ RESUME</a>
+      <a href="#contact" class="btn btn-blue">HIRE ME</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="hero-star">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#ffd000" stroke="#0a0a0a" stroke-width="2.5"/>
+          <text x="50" y="44" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7" font-weight="700" fill="#0a0a0a" transform="rotate(-20,50,50)">SHOPIFY</text>
+          <text x="50" y="54" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7" font-weight="700" fill="#0a0a0a" transform="rotate(-20,50,50)">PLUS</text>
+          <text x="50" y="64" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7" font-weight="700" fill="#0a0a0a" transform="rotate(-20,50,50)">EXPERT</text>
+        </svg>
+      </div>
+      <div class="hero-img-frame">
+        <img src="6028d55e-0ca2-44e8-a257-1139b4f27ef0.png" alt="Mayank Srivastav" />
+      </div>
+      <div class="hero-tag liquid">LIQUID ♥</div>
+      <div class="hero-tag years">⭐ 5+ YRS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years Shipping Shopify</div></div>
+  <div class="stat"><div class="stat-num">20%</div><div class="stat-label">Avg. Conversion Lift</div></div>
+  <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Stores Built / Audited</div></div>
+  <div class="stat"><div class="stat-num">99.5%</div><div class="stat-label">Uptime Track Record</div></div>
+</div>
+
+<!-- ── TICKER ── -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <div class="ticker-item">SHOPIFY WIZARD <span class="star">★</span></div>
+    <div class="ticker-item">LIQUID ARCHITECT <span class="star">★</span></div>
+    <div class="ticker-item">OS 2.0 BUILDER <span class="star">★</span></div>
+    <div class="ticker-item">CRO SPECIALIST <span class="star">★</span></div>
+    <div class="ticker-item">CHECKOUT EXTENSIBILITY <span class="star">★</span></div>
+    <div class="ticker-item">HEADLESS STOREFRONT <span class="star">★</span></div>
+    <div class="ticker-item">SHOPIFY WIZARD <span class="star">★</span></div>
+    <div class="ticker-item">LIQUID ARCHITECT <span class="star">★</span></div>
+    <div class="ticker-item">OS 2.0 BUILDER <span class="star">★</span></div>
+    <div class="ticker-item">CRO SPECIALIST <span class="star">★</span></div>
+    <div class="ticker-item">CHECKOUT EXTENSIBILITY <span class="star">★</span></div>
+    <div class="ticker-item">HEADLESS STOREFRONT <span class="star">★</span></div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div>
+    <div class="section-label">✦ ABOUT</div>
+    <div class="about-headline">
+      HALF<br>
+      DEVELOPER.<br>
+      <span class="rotated-block">HALF<br>MERCHANT</span><br>
+      BRAIN.
+    </div>
+    <p class="about-text" style="margin-top:24px;">I've been deep in Shopify since 2019 — building, breaking, optimizing. I work best when I own the entire slice: from architecting the OS 2.0 theme to fine-tuning the funnel after launch. Code that ships revenue, not just features.</p>
+    <p class="about-text">Based in <strong>Delhi, India</strong>, working with founders and DTC brands worldwide.</p>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon pink">🛍️</div>
+      <h3>SHOPIFY PLUS</h3>
+      <p>OS 2.0, Liquid, Sections, Metafields, Checkout Extensibility.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">&lt;/&gt;</div>
+      <h3>PIXEL-PERFECT</h3>
+      <p>Figma → responsive, accessible Liquid components. Zero design drift.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue">⚡</div>
+      <h3>PERFORMANCE</h3>
+      <p>Core Web Vitals, render-path tuning, lean JS. LCP under 2s.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🚀</div>
+      <h3>CRO MINDSET</h3>
+      <p>PDP audits, funnel UX, navigation tuning. Up to 20% CR uplift.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">✦ TOOLKIT</div>
+  <div class="top">
+    <div>
+      <h2 class="section-title">THE STACK I<br><span style="-webkit-text-stroke:2px #0a0a0a;color:transparent;">LIVE IN.</span></h2>
+    </div>
+    <div>
+      <p class="section-desc">Sharp tools, deep specialization. I'd rather be world-class at Shopify than mid at ten frameworks.</p>
+    </div>
+  </div>
+  <div class="tags-cloud">
+    <span class="tag t-pink">SHOPIFY PLUS</span>
+    <span class="tag">LIQUID</span>
+    <span class="tag t-blue">OS 2.0</span>
+    <span class="tag t-green">METAFIELDS</span>
+    <span class="tag">METAOBJECTS</span>
+    <span class="tag t-orange">CHECKOUT EXTENSIBILITY</span>
+    <span class="tag t-blue">STOREFRONT API</span>
+    <span class="tag t-green">ADMIN API</span>
+    <span class="tag">WEBHOOKS</span>
+    <span class="tag t-yellow">JAVASCRIPT ES6+</span>
+    <span class="tag t-pink">HTML5 / SCSS</span>
+    <span class="tag">CORE WEB VITALS</span>
+    <span class="tag t-orange">CRO</span>
+    <span class="tag t-blue">SEO</span>
+    <span class="tag t-green">FIGMA → CODE</span>
+    <span class="tag">GIT</span>
+  </div>
+</section>
+
+<!-- ── WORK ── -->
+<section id="work">
+  <div class="header">
+    <div>
+      <div class="section-label">✦ FEATURED WORK</div>
+      <h2 class="section-title">STORES I'VE SHIPPED<br><span style="-webkit-text-stroke:2px #0a0a0a;color:transparent;">&amp; AUDITED.</span></h2>
+    </div>
+    <div>
+      <p class="section-desc">A handful of Shopify Plus storefronts — built from scratch, audited end-to-end, or rebuilt for conversion.</p>
+    </div>
+  </div>
+  <div class="works-grid">
+    <a class="work-card" href="https://shapermint.com/?srsltid=AfmBOoolOSkeMTd5lVAvS9UvBUMIb3gxUirj9Y-iDakKU3wZVdfV3RzQ" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="work-img work-img-pink">
+        <div class="work-img-overlay"><span class="work-chip">AUDIT · REPLICA · CRO</span></div>
+      </div>
+      <div class="work-body">
+        <div class="work-title-row">
+          <span class="work-name">SHAPERMINT</span>
+          <span class="work-arrow">↗</span>
+        </div>
+        <p class="work-desc">Reverse-engineered a 9-figure Shopify storefront. Pixel-perfect rebuild + funnel-level CRO insights.</p>
+        <div class="work-tags">
+          <span class="work-tag">SHOPIFY PLUS</span>
+          <span class="work-tag">CRO</span>
+          <span class="work-tag">LIQUID</span>
+          <span class="work-tag">AUDIT</span>
+        </div>
+      </div>
+    </a>
+    <a class="work-card" href="https://kith.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="work-img work-img-yellow">
+        <div class="work-img-overlay"><span class="work-chip">THEME REPLICA · PERFORMANCE AUDIT</span></div>
+      </div>
+      <div class="work-body">
+        <div class="work-title-row">
+          <span class="work-name">KITH</span>
+          <span class="work-arrow">↗</span>
+        </div>
+        <p class="work-desc">Premium streetwear store. Modular Liquid components + render-path optimization for Core Web Vitals.</p>
+        <div class="work-tags">
+          <span class="work-tag">REPLICA</span>
+          <span class="work-tag">PERFORMANCE</span>
+          <span class="work-tag">SECTIONS</span>
+        </div>
+      </div>
+    </a>
+    <a class="work-card" href="https://1111jewels.in" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="work-img work-img-blue">
+        <div class="work-img-overlay"><span class="work-chip">FULL STORE BUILD</span></div>
+      </div>
+      <div class="work-body">
+        <div class="work-title-row">
+          <span class="work-name">1111JEWELS</span>
+          <span class="work-arrow">↗</span>
+        </div>
+        <p class="work-desc">End-to-end Shopify build: custom Liquid theme, secure checkout, mobile-first UX, on-page SEO baked in.</p>
+        <div class="work-tags">
+          <span class="work-tag">FROM SCRATCH</span>
+          <span class="work-tag">SEO</span>
+          <span class="work-tag">MOBILE-FIRST</span>
+        </div>
+      </div>
+    </a>
+    <a class="work-card" href="https://www.incroymerv.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="work-img work-img-teal">
+        <div class="work-img-overlay"><span class="work-chip">CUSTOM OS 2.0 THEME</span></div>
+      </div>
+      <div class="work-body">
+        <div class="work-title-row">
+          <span class="work-name">INCROYMERV</span>
+          <span class="work-arrow">↗</span>
+        </div>
+        <p class="work-desc">Figma → pixel-perfect OS 2.0 theme. Modular sections, merchant flexibility, zero design drift.</p>
+        <div class="work-tags">
+          <span class="work-tag">OS 2.0</span>
+          <span class="work-tag">FIGMA → CODE</span>
+          <span class="work-tag">CUSTOM THEME</span>
+        </div>
+      </div>
+    </a>
+    <a class="work-card" href="https://theslasho.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+      <div class="work-img work-img-pink">
+        <div class="work-img-overlay"><span class="work-chip">AUDIT · PDP REDESIGN</span></div>
+      </div>
+      <div class="work-body">
+        <div class="work-title-row">
+          <span class="work-name">THE SLASHO</span>
+          <span class="work-arrow">↗</span>
+        </div>
+        <p class="work-desc">Full store audit + redesigned product pages. Visual hierarchy + conversion-focused UX, OS 2.0.</p>
+        <div class="work-tags">
+          <span class="work-tag">AUDIT</span>
+          <span class="work-tag">PDP</span>
+          <span class="work-tag">UX</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience" style="background:#f5f0e8;padding-top:0;">
+  <div style="padding:100px 80px 0;max-width:1200px;margin:0 auto;">
+    <div class="section-label" style="margin-bottom:28px;">✦ EXPERIENCE</div>
+    <h2 class="section-title" style="margin-bottom:56px;">WHERE I'VE <span style="background:var(--pink);padding:0 10px;">SHIPPED.</span></h2>
+  </div>
+  <div style="padding:0 80px 100px;max-width:1200px;margin:0 auto;">
+    <div class="exp-timeline">
+      <div class="exp-item">
+        <div class="exp-dot" style="background:var(--pink);"></div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <span class="exp-role">SHOPIFY LEAD DEVELOPER</span>
+            <span class="exp-date">2021 — PRESENT</span>
+          </div>
+          <div class="exp-company">Freelance · Remote</div>
+          <ul class="exp-points">
+            <li>End-to-end Shopify &amp; Shopify Plus stores — requirement to deployment to optimization.</li>
+            <li>Architected fully custom Liquid themes with OS 2.0 sections, metafields &amp; metaobjects.</li>
+            <li>Drove conversion lifts up to 20% via UX, navigation &amp; performance tuning.</li>
+            <li>Translated high-fidelity Figma designs to pixel-perfect, responsive storefronts.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-dot" style="background:var(--yellow);"></div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <span class="exp-role">TECHNICAL SUPPORT ENGINEER</span>
+            <span class="exp-date">2024 — PRESENT</span>
+          </div>
+          <div class="exp-company">Kyndryl · Bangalore</div>
+          <ul class="exp-points">
+            <li>Maintained 99.5%+ application uptime across enterprise environments.</li>
+            <li>95%+ SLA resolution rate; managed multiple enterprise clients simultaneously.</li>
+            <li>Coordinated with dev, infra &amp; ops teams for rapid incident response.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-dot" style="background:var(--blue);"></div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <span class="exp-role">EXECUTION / AREA MANAGER</span>
+            <span class="exp-date">JUN 2022 — MAR 2024</span>
+          </div>
+          <div class="exp-company">Innovatiview India Pvt Ltd</div>
+          <ul class="exp-points">
+            <li>Delivered 25–30 large-scale govt examination projects (NEET, UPSSSC, RSSB).</li>
+            <li>Oversaw 1000+ centers per project across multiple states with zero-disruption delivery.</li>
+            <li>Led ground teams; central comms bridge between officials and on-ground staff.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WINS ── -->
+<section id="wins">
+  <div class="section-label" style="border-color:rgba(255,255,255,0.3);color:#ccc;">✦ WINS</div>
+  <h2 class="section-title">RECEIPTS. <span class="not">NOT</span> PROMISES.</h2>
+  <div class="wins-grid">
+    <div class="win-card">
+      <div class="win-icon pink">🏆</div>
+      <div class="win-text"><strong>+20% conversion rate uplift</strong> across multiple Shopify storefronts via UX &amp; performance tuning.</div>
+    </div>
+    <div class="win-card">
+      <div class="win-icon yellow">🏆</div>
+      <div class="win-text"><strong>Shipped multiple production-ready</strong> Shopify Plus stores independently — full end-to-end ownership.</div>
+    </div>
+    <div class="win-card">
+      <div class="win-icon blue">🏆</div>
+      <div class="win-text"><strong>Built scalable OS 2.0 architectures</strong> with custom Sections, Metafields &amp; Metaobjects.</div>
+    </div>
+    <div class="win-card">
+      <div class="win-icon green">🏆</div>
+      <div class="win-text"><strong>Maintained 99.5%+ uptime</strong> and 95%+ SLA at Kyndryl across enterprise client environments.</div>
+    </div>
+    <div class="win-card">
+      <div class="win-icon pink">🏆</div>
+      <div class="win-text"><strong>Delivered 25–30 govt exam projects</strong> managing 1000+ centers each — zero-disruption execution.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-label">✦ KIND WORDS</div>
+  <h2 class="section-title">FOUNDERS WHO <span class="trusted">TRUSTED</span> THE BUILD.</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-icon pink">❝</div>
+      <p class="testi-quote">"Mayank rebuilt our PDP and we saw conversions jump within weeks. He just gets Shopify and shipped on time."</p>
+      <div class="testi-author">— Founder, DTC Apparel Brand</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-icon yellow">❝</div>
+      <p class="testi-quote">"Pixel-perfect from Figma. He understood the brand and the funnel — that combination is rare."</p>
+      <div class="testi-author">— Creative Director, Jewellery DTC</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-icon blue">❝</div>
+      <p class="testi-quote">"We hired him for an audit and ended up keeping him for the full rebuild. Performance scores doubled."</p>
+      <div class="testi-author">— CTO, Shopify Plus Merchant</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-icon green">❝</div>
+      <p class="testi-quote">"He didn't just build the store, he stress-tested the funnel. Bounce rate dropped significantly post-launch."</p>
+      <div class="testi-author">— Co-founder, Fashion DTC</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-icon pink">❝</div>
+      <p class="testi-quote">"Fast, precise, and always explains the why. Zero back-and-forth on revisions."</p>
+      <div class="testi-author">— Founder, Shopify Plus Brand</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-icon yellow">❝</div>
+      <p class="testi-quote">"Our LCP went from 4s to under 2s. The checkout experience is now seamless on mobile."</p>
+      <div class="testi-author">— Head of E-commerce, Retail Brand</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSIGHTS ── -->
+<section id="insights">
+  <div class="header">
+    <div>
+      <div class="section-label">✦ INSIGHTS</div>
+      <h2 class="section-title">NOTES FROM THE <span style="background:var(--blue);color:#fff;padding:0 10px;">CHECKOUT.</span></h2>
+    </div>
+    <div>
+      <p class="section-desc">Field notes on Liquid patterns, Shopify performance, and the CRO experiments that actually moved numbers.</p>
+    </div>
+  </div>
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="insight-header" style="background:var(--pink);">
+        <span>LIQUID</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">5 LIQUID PATTERNS THAT CUT MY BUILD TIME IN HALF</div>
+        <p class="insight-desc">Reusable section schemas, snippet composition, and the metaobject patterns I keep reaching for on every Plus build.</p>
+        <div class="insight-link">READ SOON ↗</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-header" style="background:var(--yellow);">
+        <span>CRO</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">THE PDP AUDIT CHECKLIST THAT LIFTED CR BY 20%</div>
+        <p class="insight-desc">A no-BS, scannable list I run on every product page before I open Figma. Stickier carts. Fewer bounces.</p>
+        <div class="insight-link">READ SOON ↗</div>
+      </div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-header" style="background:var(--blue);">
+        <span style="color:#fff;">PERFORMANCE</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">CORE WEB VITALS ON SHOPIFY WITHOUT LOSING ANIMATIONS</div>
+        <p class="insight-desc">How I keep LCP under 2s and CLS near zero while still shipping the polished motion the brand asks for.</p>
+        <div class="insight-link">READ SOON ↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" style="text-align:center;">
+  <div class="badge-label">✦ LET'S BUILD</div>
+  <h2 class="section-title" style="margin-bottom:20px;">GOT A SHOPIFY<br><span class="proj">PROJECT?</span></h2>
+  <p class="sub">Drop the details. I read every message and reply within a day.</p>
+  <div class="contact-grid" style="text-align:left;">
+    <div class="contact-info-cards">
+      <div class="contact-card">
+        <div class="contact-card-icon cpink">✉️</div>
+        <div class="contact-card-info">
+          <label>Email</label>
+          <strong>MAYANKSRI2852004@GMAIL.COM</strong>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon cyellow">📞</div>
+        <div class="contact-card-info">
+          <label>Phone</label>
+          <strong>+91 79825 07436</strong>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon cgreen">📍</div>
+        <div class="contact-card-info">
+          <label>Location</label>
+          <strong>DELHI, INDIA</strong>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon" style="background:var(--white);">💼</div>
+        <div class="contact-card-info">
+          <label>LinkedIn</label>
+          <strong>LINKEDIN.COM/IN/MAYANK-SRIVASTAV</strong>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <div class="form-row">
+        <div class="form-group">
+          <label>NAME *</label>
+          <input type="text" id="fname" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label>EMAIL *</label>
+          <input type="email" id="femail" placeholder="you@brand.com" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>COMPANY / BRAND</label>
+          <input type="text" id="fcompany" placeholder="Optional" />
+        </div>
+        <div class="form-group">
+          <label>PROJECT TYPE</label>
+          <select id="ftype">
+            <option>New Shopify Build</option>
+            <option>Theme Audit</option>
+            <option>CRO Retainer</option>
+            <option>Headless Storefront</option>
+            <option>Performance Optimization</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>MESSAGE *</label>
+        <textarea id="fmessage" placeholder="Tell me about your store, timeline, goals..."></textarea>
+      </div>
+      <button class="btn-send" id="sendBtn" onclick="sendMail()">
+        ✈ SEND MESSAGE
+      </button>
+      <div class="form-msg" id="formMsg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-ship">
+      LET'S SHIP<br>
+      <span class="outline">SOMETHING</span><br>
+      GOOD.
+    </div>
+    <div class="footer-right">
+      <a href="mailto:mayanksri2852004@gmail.com" class="footer-email">✉ MAYANKSRI2852004@GMAIL.COM</a>
+      <a href="https://linkedin.com/in/mayank-srivastav" target="_blank" class="footer-linkedin">💼 /in/mayank-srivastav</a>
+      <a href="documents/mayank's resume.pdf" download="Mayank_Srivastav_Resume.pdf" class="footer-resume-btn">⬇ DOWNLOAD RESUME</a>
+    </div>
+  </div>
+  <p class="section-desc" style="color:#888;font-size:0.8rem;margin-bottom:0;max-width:420px;">Available for Shopify Plus builds, theme audits, CRO retainers, and headless storefront work.</p>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 MAYANK SRIVASTAV · DELHI, INDIA</div>
+    <div class="footer-built">BUILT WITH <span>♥</span> &amp; LIQUID</div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const ham = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  ham.addEventListener('click', () => menu.classList.toggle('open'));
+  function closeMobile() { menu.classList.remove('open'); }
+
+  // Send mail via mailto
+  function sendMail() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const company = document.getElementById('fcompany').value.trim();
+    const type = document.getElementById('ftype').value;
+    const message = document.getElementById('fmessage').value.trim();
+    const msg = document.getElementById('formMsg');
+
+    if (!name || !email || !message) {
+      msg.textContent = 'Please fill in Name, Email, and Message.';
+      msg.className = 'form-msg error';
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.className = 'form-msg error';
+      return;
+    }
+
+    const subject = encodeURIComponent(`[Portfolio Inquiry] ${type} — ${name}`);
+    const body = encodeURIComponent(
+      `Hi Mayank,\n\nName: ${name}\nEmail: ${email}\nCompany/Brand: ${company || 'N/A'}\nProject Type: ${type}\n\nMessage:\n${message}\n\nSent from your portfolio website.`
+    );
+    window.location.href = `mailto:mayanksri2852004@gmail.com?subject=${subject}&body=${body}`;
+
+    msg.textContent = '✓ Opening your mail client... Your message is ready to send!';
+    msg.className = 'form-msg success';
+    document.getElementById('fname').value = '';
+    document.getElementById('femail').value = '';
+    document.getElementById('fcompany').value = '';
+    document.getElementById('fmessage').value = '';
+  }
+
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .work-card, .exp-card, .win-card, .testi-card, .insight-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s, border-color 0.2s';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
